@@ -141,6 +141,12 @@ func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 		msg.Message = msg.Message[0:2046]
 	}
 
+	index := strings.Index(msg.DeviceId, ":")
+
+	if index > -1 {
+		msg.Platform = "android"
+	}
+
 	if server, ok := servers[msg.Platform]; ok {
 		rMsg := server.SendNotification(msg)
 		w.Write([]byte(rMsg.ToJson()))

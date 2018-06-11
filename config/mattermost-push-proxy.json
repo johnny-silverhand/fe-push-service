@@ -23,11 +23,11 @@
     "AndroidPushSettings":[
         {
             "Type":"android",
-            "AndroidApiKey":""
+            "AndroidApiKey":"AIzaSyBFdCeFX60XnUfS8sraPIY5mYng_s6LSxM"
         },
         {
             "Type":"android_rn",
-            "AndroidApiKey":""
+            "AndroidApiKey":"AIzaSyBFdCeFX60XnUfS8sraPIY5mYng_s6LSxM"
         }
     ]
 }
