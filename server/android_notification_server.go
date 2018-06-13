@@ -7,9 +7,28 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/alexjlockwood/gcm"
+	"github.com/NaySoftware/go-fcm"
 	"github.com/kyokomi/emoji"
+
 )
+
+
+type Message struct {
+	RegistrationIDs       []string               `json:"registration_ids"`
+	CollapseKey           string                 `json:"collapse_key,omitempty"`
+	Data                  map[string]interface{} `json:"data,omitempty"`
+	DelayWhileIdle        bool                   `json:"delay_while_idle,omitempty"`
+	TimeToLive            int                    `json:"time_to_live,omitempty"`
+	RestrictedPackageName string                 `json:"restricted_package_name,omitempty"`
+	DryRun                bool                   `json:"dry_run,omitempty"`
+}
+
+// NewMessage returns a new Message with the specified payload
+// and registration IDs.
+func NewMessage(data map[string]interface{}, regIDs ...string) *Message {
+	return &Message{RegistrationIDs: regIDs, Data: data}
+}
+
 
 type AndroidNotificationServer struct {
 	AndroidPushSettings AndroidPushSettings
@@ -61,17 +80,21 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 	}
 
 	regIDs := []string{msg.DeviceId}
-	gcmMsg := gcm.NewMessage(data, regIDs...)
+	//gcmMsg := NewMessage(data, regIDs...)
 
-	sender := &gcm.Sender{
+	sender := fcm.NewFcmClient(me.AndroidPushSettings.AndroidApiKey)
+	//sender.NewFcmMsgTo("", data)
+	sender.NewFcmRegIdsMsg(regIDs, data)
+	//sender.AppendDevices(xds)
+	/*sender := &gcm.Sender{
 		ApiKey: me.AndroidPushSettings.AndroidApiKey,
 		Http:   httpClient,
-	}
+	}*/
 
 	if len(me.AndroidPushSettings.AndroidApiKey) > 0 {
 		LogInfo(fmt.Sprintf("Sending android push notification for type=%v", me.AndroidPushSettings.Type))
 		start := time.Now()
-		resp, err := sender.Send(gcmMsg, 2)
+		resp, err := sender.Send()
 		observeGCMResponse(time.Since(start).Seconds())
 
 		if err != nil {
@@ -80,8 +103,8 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 			return NewErrorPushResponse("unknown transport error")
 		}
 
-		if resp.Failure > 0 {
-			if len(resp.Results) > 0 && (resp.Results[0].Error == "InvalidRegistration" || resp.Results[0].Error == "NotRegistered") {
+		if resp.Fail > 0 {
+			if len(resp.Results) > 0 && (resp.Results[0]["error"] == "InvalidRegistration" || resp.Results[0]["error"] == "NotRegistered") {
 				LogInfo(fmt.Sprintf("Android response failure sending remove code: %v type=%v", resp, me.AndroidPushSettings.Type))
 				incrementRemoval(me.AndroidPushSettings.Type)
 				return NewRemovePushResponse()
