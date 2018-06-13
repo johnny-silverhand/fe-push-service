@@ -84,7 +84,14 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 
 	sender := fcm.NewFcmClient(me.AndroidPushSettings.AndroidApiKey)
 	//sender.NewFcmMsgTo("", data)
+	notification := &fcm.NotificationPayload{}
 	sender.NewFcmRegIdsMsg(regIDs, data)
+	notification.Title = msg.Message
+	notification.Icon = "ic_launcher"
+	notification.Body = emoji.Sprint(msg.Message)
+
+	sender.SetNotificationPayload(notification)
+
 	//sender.AppendDevices(xds)
 	/*sender := &gcm.Sender{
 		ApiKey: me.AndroidPushSettings.AndroidApiKey,
@@ -113,6 +120,8 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 			incrementFailure(me.AndroidPushSettings.Type)
 			return NewErrorPushResponse("unknown send response error")
 		}
+
+		LogError(fmt.Sprintf("Android resp: %v type=%v", resp, resp.Results))
 	}
 
 	incrementSuccess(me.AndroidPushSettings.Type)

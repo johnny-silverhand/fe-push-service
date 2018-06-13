@@ -1,5 +1,5 @@
 {
-    "ListenAddress":":8066",
+    "ListenAddress":":8050",
     "ThrottlePerSec":300,
     "ThrottleMemoryStoreSize":50000,
     "ThrottleVaryByHeader":"X-Forwarded-For",
