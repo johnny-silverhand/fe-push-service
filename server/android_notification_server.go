@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/NaySoftware/go-fcm"
+	fcm "github.com/NaySoftware/go-fcm"
 	"github.com/kyokomi/emoji"
 
 )
@@ -105,7 +105,7 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 		observeGCMResponse(time.Since(start).Seconds())
 
 		if err != nil {
-			LogError(fmt.Sprintf("Failed to send GCM push sid=%v did=%v err=%v type=%v", msg.ServerId, msg.DeviceId, err, me.AndroidPushSettings.Type))
+			LogError(fmt.Sprintf("Failed to send GCM push did=%v err=%v type=%v", msg.DeviceId, err, me.AndroidPushSettings.Type))
 			incrementFailure(me.AndroidPushSettings.Type)
 			return NewErrorPushResponse("unknown transport error")
 		}
@@ -121,7 +121,7 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 			return NewErrorPushResponse("unknown send response error")
 		}
 
-		LogError(fmt.Sprintf("Android resp: %v type=%v", resp, resp.Results))
+		//LogError(fmt.Sprintf("Android resp: %v type=%v", resp, resp.Results))
 	}
 
 	incrementSuccess(me.AndroidPushSettings.Type)

@@ -105,7 +105,15 @@ func (me *AppleNotificationServer) SendNotification(msg *PushNotification) PushR
 	if len(msg.RootId) > 0 {
 		payload.Custom("root_id", msg.RootId)
 	}
-	payload.Custom("push_type", "message")
+
+	if len(msg.NewsId) > 0 {
+		payload.Custom("news_id", msg.NewsId)
+	}
+
+	if len(msg.PushType) > 0 {
+		payload.Custom("push_type", msg.PushType)
+	}
+
 
 	if len(msg.OverrideUsername) > 0 {
 		payload.Custom("override_username", msg.OverrideUsername)
@@ -125,7 +133,7 @@ func (me *AppleNotificationServer) SendNotification(msg *PushNotification) PushR
 		res, err := me.AppleClient.Push(notification)
 		observeAPNSResponse(time.Since(start).Seconds())
 		if err != nil {
-			LogError(fmt.Sprintf("Failed to send apple push sid=%v did=%v err=%v type=%v", msg.ServerId, msg.DeviceId, err, me.ApplePushSettings.Type))
+			LogError(fmt.Sprintf("Failed to send apple push did=%v err=%v type=%v",  msg.DeviceId, err, me.ApplePushSettings.Type))
 			incrementFailure(me.ApplePushSettings.Type)
 			return NewErrorPushResponse("unknown transport error")
 		}

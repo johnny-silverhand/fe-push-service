@@ -33,7 +33,7 @@ func TestBasicServer(t *testing.T) {
 	}
 
 	// Test for missing platform type
-	msg.ServerId = "test"
+
 	client = http.Client{}
 	rq, _ = http.NewRequest("POST", "http://localhost:8066/api/v1/send_push", strings.NewReader(msg.ToJson()))
 	if resp, err := client.Do(rq); err != nil {
@@ -72,7 +72,7 @@ func TestAndroidSend(t *testing.T) {
 	msg.Message = "test"
 	msg.Badge = 1
 	msg.Platform = PUSH_NOTIFY_ANDROID
-	msg.ServerId = "test"
+
 	msg.DeviceId = "test"
 
 	client := http.Client{}

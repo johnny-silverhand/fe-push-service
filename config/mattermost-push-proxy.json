@@ -17,7 +17,7 @@
             "ApplePushUseDevelopment":false,
             "ApplePushCertPrivate":"",
             "ApplePushCertPassword":"",
-            "ApplePushTopic":"com.65apps.FinAssist"
+            "ApplePushTopic":""
         }
     ],
     "AndroidPushSettings":[

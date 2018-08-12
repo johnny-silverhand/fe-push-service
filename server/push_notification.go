@@ -45,7 +45,7 @@ var httpClient = &http.Client{
 
 type PushNotification struct {
 	Platform         string `json:"platform"`
-	ServerId         string `json:"server_id"`
+
 	DeviceId         string `json:"device_id"`
 	Category         string `json:"category"`
 	Sound            string `json:"sound"`
@@ -55,6 +55,8 @@ type PushNotification struct {
 	TeamId           string `json:"team_id"`
 	ChannelId        string `json:"channel_id"`
 	PostId           string `json:"post_id"`
+	NewsId           string `json:"news_id"`
+	PushType         string `json:"push_type"`
 	RootId           string `json:"root_id"`
 	ChannelName      string `json:"channel_name"`
 	Type             string `json:"type"`

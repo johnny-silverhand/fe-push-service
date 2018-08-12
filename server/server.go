@@ -123,15 +123,15 @@ func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(msg.ServerId) == 0 {
+	/*if len(msg.ServerId) == 0 {
 		rMsg := LogError("Failed because of missing server Id")
 		w.Write([]byte(rMsg.ToJson()))
 		incrementBadRequest()
 		return
-	}
+	}*/
 
 	if len(msg.DeviceId) == 0 {
-		rMsg := LogError(fmt.Sprintf("Failed because of missing device Id serverId=%v", msg.ServerId))
+		rMsg := LogError(fmt.Sprintf("Failed because of missing device Id"))
 		w.Write([]byte(rMsg.ToJson()))
 		incrementBadRequest()
 		return
@@ -142,7 +142,7 @@ func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 	}
 
 	index := strings.Index(msg.DeviceId, ":")
-
+	msg.Platform = "apple"
 	if index > -1 {
 		msg.Platform = "android"
 	}
@@ -152,7 +152,7 @@ func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(rMsg.ToJson()))
 		return
 	} else {
-		rMsg := LogError(fmt.Sprintf("Did not send message because of missing platform property type=%v serverId=%v", msg.Platform, msg.ServerId))
+		rMsg := LogError(fmt.Sprintf("Did not send message because of missing platform property type=%v", msg.Platform))
 		w.Write([]byte(rMsg.ToJson()))
 		incrementBadRequest()
 		return
