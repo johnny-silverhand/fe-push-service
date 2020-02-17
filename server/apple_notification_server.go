@@ -5,6 +5,7 @@ package server
 
 import (
 	"fmt"
+	"github.com/sideshow/apns2/token"
 	"time"
 
 	"github.com/kyokomi/emoji"
@@ -38,12 +39,10 @@ func FindPemFile(fileName string) string {
 	return fileName
 }
 
-
 func (me *AppleNotificationServer) Initialize() bool {
 	LogInfo(fmt.Sprintf("Initializing apple notification server for type=%v", me.ApplePushSettings.Type))
 
 	if len(me.ApplePushSettings.ApplePushCertPrivate) > 0 {
-
 
 		appleCert, appleCertErr := certificate.FromPemFile(FindPemFile(me.ApplePushSettings.ApplePushCertPrivate), me.ApplePushSettings.ApplePushCertPassword)
 		if appleCertErr != nil {
@@ -57,6 +56,25 @@ func (me *AppleNotificationServer) Initialize() bool {
 			me.AppleClient = apns.NewClient(appleCert).Production()
 		}
 
+		return true
+	} else if len(me.ApplePushSettings.ApplePushKey) > 0 {
+		authKey, err := token.AuthKeyFromFile(me.ApplePushSettings.ApplePushKey)
+		if err != nil {
+			LogCritical(fmt.Sprintf("Failed to load the apple push key err=%v for type=%v", err, me.ApplePushSettings.Type))
+			return false
+		}
+		token := &token.Token{
+			AuthKey: authKey,
+			// KeyID from developer account (Certificates, Identifiers & Profiles -> Keys)
+			KeyID: me.ApplePushSettings.AppleKeyId,
+			// TeamID from developer account (View Account -> Membership)
+			TeamID: me.ApplePushSettings.AppleTeamId,
+		}
+		if me.ApplePushSettings.ApplePushUseDevelopment {
+			me.AppleClient = apns.NewTokenClient(token).Development()
+		} else {
+			me.AppleClient = apns.NewTokenClient(token).Production()
+		}
 		return true
 	} else {
 		LogError(fmt.Sprintf("Apple push notifications not configured.  Missing ApplePushCertPrivate. for type=%v", me.ApplePushSettings.Type))
@@ -114,7 +132,6 @@ func (me *AppleNotificationServer) SendNotification(msg *PushNotification) PushR
 		payload.Custom("push_type", msg.PushType)
 	}
 
-
 	if len(msg.OverrideUsername) > 0 {
 		payload.Custom("override_username", msg.OverrideUsername)
 	}
@@ -133,7 +150,7 @@ func (me *AppleNotificationServer) SendNotification(msg *PushNotification) PushR
 		res, err := me.AppleClient.Push(notification)
 		observeAPNSResponse(time.Since(start).Seconds())
 		if err != nil {
-			LogError(fmt.Sprintf("Failed to send apple push did=%v err=%v type=%v",  msg.DeviceId, err, me.ApplePushSettings.Type))
+			LogError(fmt.Sprintf("Failed to send apple push did=%v err=%v type=%v", msg.DeviceId, err, me.ApplePushSettings.Type))
 			incrementFailure(me.ApplePushSettings.Type)
 			return NewErrorPushResponse("unknown transport error")
 		}

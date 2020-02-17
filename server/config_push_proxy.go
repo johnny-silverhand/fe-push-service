@@ -21,6 +21,9 @@ type ConfigPushProxy struct {
 
 type ApplePushSettings struct {
 	Type                    string
+	ApplePushKey            string
+	AppleTeamId             string
+	AppleKeyId              string
 	ApplePushUseDevelopment bool
 	ApplePushCertPrivate    string
 	ApplePushCertPassword   string

@@ -1,33 +1,26 @@
 {
     "ListenAddress":":8050",
-    "ThrottlePerSec":300,
-    "ThrottleMemoryStoreSize":50000,
+    "ThrottlePerSec":30000,
+    "ThrottleMemoryStoreSize":500000,
     "ThrottleVaryByHeader":"X-Forwarded-For",
     "EnableMetrics": false,
     "ApplePushSettings":[
+
         {
             "Type":"apple",
             "ApplePushUseDevelopment":false,
-            "ApplePushCertPrivate":"_.pem",
-            "ApplePushCertPassword":"65apps",
-            "ApplePushTopic":"com.65apps.FinAssist"
-        },
-        {
-            "Type":"apple_rn",
-            "ApplePushUseDevelopment":false,
+            "ApplePushKey":"./config/AuthKey_BDS8W567G3.p8",
             "ApplePushCertPrivate":"",
             "ApplePushCertPassword":"",
-            "ApplePushTopic":""
+            "ApplePushTopic":"com.RITLLC.FoodExpress",
+            "AppleTeamId" : "89B635P66C",
+            "AppleKeyId" : "BDS8W567G3"
         }
     ],
     "AndroidPushSettings":[
         {
             "Type":"android",
-            "AndroidApiKey":"AIzaSyBFdCeFX60XnUfS8sraPIY5mYng_s6LSxM"
-        },
-        {
-            "Type":"android_rn",
-            "AndroidApiKey":"AIzaSyBFdCeFX60XnUfS8sraPIY5mYng_s6LSxM"
+            "AndroidApiKey":"AIzaSyAXUjEmY5L0qbNbPiftk25NEu7gZ2ZjUrs"
         }
     ]
 }
