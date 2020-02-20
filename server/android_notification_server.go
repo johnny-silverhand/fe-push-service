@@ -9,9 +9,7 @@ import (
 
 	fcm "github.com/NaySoftware/go-fcm"
 	"github.com/kyokomi/emoji"
-
 )
-
 
 type Message struct {
 	RegistrationIDs       []string               `json:"registration_ids"`
@@ -28,7 +26,6 @@ type Message struct {
 func NewMessage(data map[string]interface{}, regIDs ...string) *Message {
 	return &Message{RegistrationIDs: regIDs, Data: data}
 }
-
 
 type AndroidNotificationServer struct {
 	AndroidPushSettings AndroidPushSettings
@@ -86,7 +83,7 @@ func (me *AndroidNotificationServer) SendNotification(msg *PushNotification) Pus
 	//sender.NewFcmMsgTo("", data)
 	notification := &fcm.NotificationPayload{}
 	sender.NewFcmRegIdsMsg(regIDs, data)
-	notification.Title = msg.Message
+	//notification.Title = msg.Message
 	notification.Icon = "ic_launcher"
 	notification.Body = emoji.Sprint(msg.Message)
 
