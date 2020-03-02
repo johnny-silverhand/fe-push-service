@@ -13,9 +13,9 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/tylerb/graceful"
 	"github.com/throttled/throttled"
 	throttledStore "github.com/throttled/throttled/store"
+	"github.com/tylerb/graceful"
 )
 
 const (
@@ -30,7 +30,7 @@ type NotificationServer interface {
 	Initialize() bool
 }
 
-var servers map[string]NotificationServer = make(map[string]NotificationServer)
+var servers map[string]map[string]NotificationServer = make(map[string]map[string]NotificationServer)
 
 var gracefulServer *graceful.Server
 
@@ -40,14 +40,18 @@ func Start() {
 	for _, settings := range CfgPP.ApplePushSettings {
 		server := NewAppleNotificationServer(settings)
 		if server.Initialize() {
-			servers[settings.Type] = server
+			//servers[settings.Type][settings.ServerTeamId] = server
+			servers[settings.Type] = map[string]NotificationServer{}
+			servers[settings.Type][settings.ServerTeamId] = server
 		}
 	}
 
 	for _, settings := range CfgPP.AndroidPushSettings {
 		server := NewAndroideNotificationServer(settings)
 		if server.Initialize() {
-			servers[settings.Type] = server
+			//servers[settings.Type][settings.ServerTeamId] = server
+			servers[settings.Type] = map[string]NotificationServer{}
+			servers[settings.Type][settings.ServerTeamId] = server
 		}
 	}
 
@@ -146,8 +150,10 @@ func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 	if index > -1 {
 		msg.Platform = "android"
 	}
-
-	if server, ok := servers[msg.Platform]; ok {
+	if len(msg.TeamId) != 26 {
+		msg.TeamId = "test_rit"
+	}
+	if server, ok := servers[msg.Platform][msg.TeamId]; ok {
 		rMsg := server.SendNotification(msg)
 		w.Write([]byte(rMsg.ToJson()))
 		return

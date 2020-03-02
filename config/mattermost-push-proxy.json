@@ -8,19 +8,37 @@
 
         {
             "Type":"apple",
-            "ApplePushUseDevelopment":false,
+            "ApplePushUseDevelopment":true,
             "ApplePushKey":"./config/AuthKey_BDS8W567G3.p8",
             "ApplePushCertPrivate":"",
             "ApplePushCertPassword":"",
             "ApplePushTopic":"com.RITLLC.FoodExpress",
             "AppleTeamId" : "89B635P66C",
-            "AppleKeyId" : "BDS8W567G3"
+            "AppleKeyId" : "BDS8W567G3",
+            "ServerTeamId": "test_rit"
+        },
+        {
+            "Type":"apple",
+            "ApplePushUseDevelopment":true,
+            "ApplePushKey":"./config/AuthKey_8VJ4W2C949.p8",
+            "ApplePushCertPrivate":"",
+            "ApplePushCertPassword":"",
+            "ApplePushTopic":"ru.AleksandrChikurov.FoodExpIzh",
+            "AppleTeamId" : "BLK4B34RW2",
+            "AppleKeyId" : "8VJ4W2C949",
+            "ServerTeamId": "yoy673gy8iyqjf3opxu9ex6wjh"
         }
     ],
     "AndroidPushSettings":[
         {
             "Type":"android",
-            "AndroidApiKey":"AAAAk33uk7g:APA91bFqsLlLUTNsjJ0ZDbFdYqzAFrCHL3xxpjrum-eKI_EqVfbnvx5EYsykZQaXuPyRJ0mGvH5xzl8e8AP76X_B9Xq8cuqHrTFoBXDWXk73vBQmUIWfBr9NHOA-lyJ9VpARTddfRJrQ"
+            "AndroidApiKey":"AAAAk33uk7g:APA91bFqsLlLUTNsjJ0ZDbFdYqzAFrCHL3xxpjrum-eKI_EqVfbnvx5EYsykZQaXuPyRJ0mGvH5xzl8e8AP76X_B9Xq8cuqHrTFoBXDWXk73vBQmUIWfBr9NHOA-lyJ9VpARTddfRJrQ",
+            "ServerTeamId": "test_rit"
+        },
+        {
+            "Type":"android",
+            "AndroidApiKey": "AAAAdV-g4j4:APA91bF_P2Z8c-xvgtrdaC0sNiJewaOklu4iCoKg-w2K_ulRxGkmw2-8YP6-k54xmo2_OrpJvOS160LeSkXR1nHLPCBbgJ9VwjyKfz-4bXWuw0SgEz-ZodII08EjDRfH4fT0IRs7kiN8",
+            "ServerTeamId": "yoy673gy8iyqjf3opxu9ex6wjh"
         }
     ]
 }
