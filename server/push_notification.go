@@ -44,7 +44,7 @@ var httpClient = &http.Client{
 }
 
 type PushNotification struct {
-	Platform         string `json:"platform"`
+	Platform string `json:"platform"`
 
 	DeviceId         string `json:"device_id"`
 	Category         string `json:"category"`
@@ -64,6 +64,7 @@ type PushNotification struct {
 	OverrideUsername string `json:"override_username"`
 	OverrideIconUrl  string `json:"override_icon_url"`
 	FromWebhook      string `json:"from_webhook"`
+	Data             string `json:"data"`
 }
 
 func (me *PushNotification) ToJson() string {
