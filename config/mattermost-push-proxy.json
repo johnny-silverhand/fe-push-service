@@ -30,7 +30,7 @@
         },
         {
             "Type":"apple",
-            "ApplePushUseDevelopment":true,
+            "ApplePushUseDevelopment":false,
             "ApplePushKey":"./config/AuthKey_8VJ4W2C949.p8",
             "ApplePushCertPrivate":"",
             "ApplePushCertPassword":"",
