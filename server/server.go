@@ -30,7 +30,7 @@ type NotificationServer interface {
 	Initialize() bool
 }
 
-var servers map[string]map[string]NotificationServer = make(map[string]map[string]NotificationServer)
+var servers map[string]NotificationServer = make(map[string]NotificationServer)
 
 var gracefulServer *graceful.Server
 
@@ -40,18 +40,14 @@ func Start() {
 	for _, settings := range CfgPP.ApplePushSettings {
 		server := NewAppleNotificationServer(settings)
 		if server.Initialize() {
-			//servers[settings.Type][settings.ServerTeamId] = server
-			servers[settings.Type] = map[string]NotificationServer{}
-			servers[settings.Type][settings.ServerTeamId] = server
+			servers[settings.ServerTeamId+settings.Type] = server
 		}
 	}
 
 	for _, settings := range CfgPP.AndroidPushSettings {
 		server := NewAndroideNotificationServer(settings)
 		if server.Initialize() {
-			//servers[settings.Type][settings.ServerTeamId] = server
-			servers[settings.Type] = map[string]NotificationServer{}
-			servers[settings.Type][settings.ServerTeamId] = server
+			servers[settings.ServerTeamId+settings.Type] = server
 		}
 	}
 
@@ -153,11 +149,12 @@ func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 	if len(msg.TeamId) != 26 {
 		msg.TeamId = "test_rit"
 	}
-	if server, ok := servers[msg.Platform][msg.TeamId]; ok {
+	if server, ok := servers[msg.TeamId+msg.Platform]; ok {
 		rMsg := server.SendNotification(msg)
 		w.Write([]byte(rMsg.ToJson()))
 		return
 	} else {
+		fmt.Println("Message Info: ", msg.Platform, msg.TeamId, msg.Message)
 		rMsg := LogError(fmt.Sprintf("Did not send message because of missing platform property type=%v", msg.Platform))
 		w.Write([]byte(rMsg.ToJson()))
 		incrementBadRequest()
