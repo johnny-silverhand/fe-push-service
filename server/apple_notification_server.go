@@ -144,6 +144,10 @@ func (me *AppleNotificationServer) SendNotification(msg *PushNotification) PushR
 		payload.Custom("from_webhook", msg.FromWebhook)
 	}
 
+	if len(msg.PromoId) > 0 {
+		payload.Custom("promo_id", msg.PromoId)
+	}
+
 	if me.AppleClient != nil {
 		LogInfo(fmt.Sprintf("Sending apple push notification type=%v", me.ApplePushSettings.Type))
 		start := time.Now()

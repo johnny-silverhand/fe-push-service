@@ -115,6 +115,7 @@ func responseTimeMiddleware(f func(w http.ResponseWriter, r *http.Request)) func
 
 func handleSendNotification(w http.ResponseWriter, r *http.Request) {
 	msg := PushNotificationFromJson(r.Body)
+	fmt.Println(msg.ToJson())
 
 	if msg == nil {
 		rMsg := LogError("Failed to read message body")
