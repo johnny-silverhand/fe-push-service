@@ -12,7 +12,7 @@ import (
 
 func TestMetricDisabled(t *testing.T) {
 	t.Log("Testing Metrics Enabled")
-	LoadConfig("mattermost-push-proxy.json")
+	LoadConfig("push-proxy.json")
 	platform := "junk"
 	CfgPP.AndroidPushSettings[0].AndroidApiKey = platform
 	CfgPP.EnableMetrics = false
