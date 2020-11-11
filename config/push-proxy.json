@@ -8,7 +8,7 @@
         {
             "Type":"apple",
             "ApplePushUseDevelopment":true,
-            "ApplePushKey":"./config/AuthKey_.p8",
+            "ApplePushKey":"./config/AuthKey_.p8", // path to P8 certificate
             "ApplePushCertPrivate":"",
             "ApplePushCertPassword":"",
             "ApplePushTopic":"",
