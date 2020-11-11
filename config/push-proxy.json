@@ -1,0 +1,27 @@
+{
+    "ListenAddress":":8050",
+    "ThrottlePerSec":30000,
+    "ThrottleMemoryStoreSize":500000,
+    "ThrottleVaryByHeader":"X-Forwarded-For",
+    "EnableMetrics": false,
+    "ApplePushSettings":[
+        {
+            "Type":"apple",
+            "ApplePushUseDevelopment":true,
+            "ApplePushKey":"./config/AuthKey_.p8",
+            "ApplePushCertPrivate":"",
+            "ApplePushCertPassword":"",
+            "ApplePushTopic":"",
+            "AppleTeamId" : "",
+            "AppleKeyId" : "",
+            "ServerTeamId": ""
+        }
+    ],
+    "AndroidPushSettings":[
+        {
+            "Type":"android",
+            "AndroidApiKey":"",
+            "ServerTeamId": ""
+        }
+    ]
+}
