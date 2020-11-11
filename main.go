@@ -1,6 +1,3 @@
-// Copyright (c) 2015 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
-
 package main
 
 import (
@@ -18,7 +15,7 @@ var stopChan chan os.Signal = make(chan os.Signal)
 
 func main() {
 
-	flag.StringVar(&flagConfigFile, "config", "mattermost-push-proxy.json", "")
+	flag.StringVar(&flagConfigFile, "config", "push-proxy.json", "")
 	flag.Parse()
 	server.LoadConfig(flagConfigFile)
 
