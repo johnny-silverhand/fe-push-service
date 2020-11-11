@@ -39,7 +39,6 @@ _testmain.go
 *.prof
 
 # Log files
-*mattermost.log
 *npm-debug.log*
 
 # Vim temporary files
